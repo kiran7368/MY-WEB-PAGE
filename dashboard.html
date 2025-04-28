@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedEase Dashboard</title>
+    <link rel="shortcut icon" type="jpg" href="fevicon.png">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="shortcut icon" type="jpg" href="fevicon.png">
+</head>
+<body>
+    <nav class="sidebar">>
+        <img src="fevicon.png" alt="Favicon" class="favicon">
+        <h2 class="sidebar-title">Dashboard</h2>
+        <button class="nav-button" data-section="inventory" onclick="redirect_to_inventory()">Inventory</button>
+                <button class="nav-button" data-section="sales" onclick="redirect_to_add_patient()">Sales</button>
+        <button class="nav-button" data-section="tracking" onclick="redirect_to_bed_availability()">Tracking</button>
+        <button class="nav-button" data-section="staff-training" onclick="redirect_to_training()">Staff Training</button>
+       
+        <button class="nav-button" data-section="feedback" onclick="redirect_to_schedule()">Feedback</button>
+        <button class="nav-button" data-section="help" onclick="redirect_to_blood_bank()">Help</button>
+        <button class="nav-button logout-button" data-section="logout" onclick="logout()">Logout</button>
+    </nav>
+    
+    <div class="main-content">
+        <div class="welcome-section" id="welcome">
+            <h1>Welcome to MedEase</h1>
+            <img src="dashboard.png" alt="Hospital Image">
+        </div>
+
+        <div class="section" id="inventory">
+            <h2>Inventory Management</h2>
+            <p>Keep track of medical supplies, equipment, and other inventory items. Maintain stock levels and avoid shortages.</p>
+            <img src="inventory.png" alt="Inventory Management Image">
+        </div>
+
+        
+
+        <div class="section" id="sales">
+            <h2>Sales</h2>
+            <p>Maximizing Resources for Optimal Patient Care</p>
+            <img src="sales.png" alt="sales image">
+        </div>
+
+        <div class="section" id="tracking">
+            <h2>Tracking</h2>
+            <p>Ensuring Every Referral is Monitored and Managed</p>
+            <img src="tracking.png" alt="tracking image">
+        </div>
+
+        <div class="section" id="staff-training">
+            <h2>Staff Training</h2>
+            <p>Organize and manage staff training programs. Track training schedules and ensure all staff members are up-to-date with necessary skills.</p>
+            <img src="stafftrain.png" alt="Staff Training Image">
+        </div>
+
+       
+
+        <div class="section" id="feedback">
+            <h2>Feedback</h2>
+            <p>Empowering Improvements Through Patient Voices</p>
+            <img src="feedback.png" alt="feedback Image">
+        </div>
+
+        <div class="section" id="help">
+            <h2>Help</h2>
+            <p>Your Lifeline for Timely Assistance</p>
+            <img src="help.png" alt="help Image">
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2024 MedEase Dashboard. All rights reserved</p>
+            <div class="dashboard-options">
+                <a href="#welcome">Home</a>
+                <a href="#inventory">Inventory</a>
+                
+                <a href="#sales">Sales</a>
+                <a href="#tracking">Tracking</a>
+                <a href="#staff-training">Staff Training</a>
+                <a href="#schedule">Schedule</a>
+                
+                <a href="#help">Help</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
+

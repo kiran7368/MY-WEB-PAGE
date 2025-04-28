@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "frontend",
+			"path": "../frontend"
+		},
+		{
+			"name": "156",
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "156"
+	}
+}

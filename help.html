@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background: linear-gradient(to right, #b8c3ce, #166796);
+            color: #333;
+            text-align: center;
+        }
+
+        h2 {
+            color: rgb(255, 255, 255);
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background-color: #4CAF50;
+            z-index: 100;
+            transition: width 1s ease-in-out;
+        }
+
+        .help-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        /* Help Box with Vertical Color Stripe */
+        .help-box {
+            background-color: white;
+            width: 300px;
+            margin: 20px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+
+        .help-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Vertical Color Bar */
+        .color-bar {
+            width: 10px;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .color-bar.green {
+            background-color: #4CAF50;
+        }
+
+        .color-bar.blue {
+            background-color: #2196F3;
+        }
+
+        .color-bar.orange {
+            background-color: #FF9800;
+        }
+
+        .color-bar.red {
+            background-color: #F44336;
+        }
+
+        .help-box .icon {
+            font-size: 50px;
+            color: #4CAF50;
+            margin-right: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .help-box:hover .icon {
+            transform: rotate(360deg);
+        }
+
+        .help-box h3 {
+            font-size: 22px;
+            color: #333;
+            margin: 0;
+        }
+
+        .help-box p {
+            font-size: 16px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 80%;
+            max-width: 500px;
+            padding: 12px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 10px rgba(0, 128, 0, 0.2);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .accordion {
+            background-color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            font-size: 18px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            transition: background-color 0.4s ease;
+        }
+
+        .accordion:hover {
+            background-color: #f9f9f9;
+        }
+
+        .active,
+        .accordion:focus {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .panel {
+            display: none;
+            padding: 0 18px;
+            background-color: white;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+
+        .panel.show {
+            display: block;
+            padding: 15px;
+        }
+
+        .panel p {
+            color: #333;
+        }
+
+        /* Contact Support Button */
+        .contact-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            font-size: 18px;
+            margin: 30px auto;
+            cursor: pointer;
+            border-radius: 30px;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-btn:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeInAnimation 1s forwards;
+        }
+
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-bar" id="loading-bar"></div>
+    
+    <h2>Help Center</h2>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search help topics...">
+    </div>
+
+    <!-- Help Boxes -->
+    <div class="help-container fade-in">
+        <div class="help-box" data-tooltip="Track your inventory effectively.">
+            <div class="color-bar green"></div>
+            <i class="fas fa-truck icon"></i>
+            <div>
+                <h3>How to Track Your Inventory</h3>
+                <p>Learn how to use the tracking feature to monitor your inventory levels.</p>
+            </div>
+        </div>
+
+        <div class="help-box" data-tooltip="Manage your supply chain.">
+            <div class="color-bar blue"></div>
+            <i class="fas fa-dolly icon"></i>
+            <div>
+                <h3>Managing Supply Chain</h3>
+                <p>Understand how to manage and streamline your supply chain for faster distribution.</p>
+            </div>
+        </div>
+
+        <div class="help-box" data-tooltip="Analyze consumption patterns.">
+            <div class="color-bar orange"></div>
+            <i class="fas fa-chart-line icon"></i>
+            <div>
+                <h3>Analyzing Consumption Patterns</h3>
+                <p>Use data analytics to gain insights and make informed decisions.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+        <button class="accordion fade-in">What is the Inventory System?</button>
+        <div class="panel">
+            <p>The Inventory System helps manage and monitor stock levels, ensuring items are available when needed.</p>
+        </div>
+
+        <button class="accordion fade-in">How do I update inventory?</button>
+        <div class="panel">
+            <p>You can update inventory information by accessing the "Inventory Management" section and inputting the latest stock details.</p>
+        </div>
+
+        <button class="accordion fade-in">How can I contact support?</button>
+        <div class="panel">
+            <p>If you need assistance, please click the contact button or email us at support@inventorysystem.com.</p>
+        </div>
+    </div>
+
+    <!-- Contact Support Button -->
+    <button class="contact-btn fade-in" onclick="window.location.href='mailto:support@inventorysystem.com'">Contact Support</button>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTopBtn"><i class="fas fa-arrow-up"></i></button>
+
+    <script>
+        // Accordion functionality
+        const accordions = document.querySelectorAll(".accordion");
+        accordions.forEach(acc => {
+            acc.addEventListener("click", function () {
+                this.classList.toggle("active");
+                const panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            document.querySelectorAll('.help-box').forEach(box => {
+                const text = box.innerText.toLowerCase();
+                box.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        });
+
+        // Scroll-to-Top Button
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.onscroll = function () {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        };
+
+        scrollToTopBtn.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Loading Bar Animation
+        window.addEventListener('load', () => {
+            const loadingBar = document.getElementById('loading-bar');
+            loadingBar.style.width = '100%';
+            setTimeout(() => loadingBar.style.opacity = 0, 1200);
+        });
+    </script>
+</body>
+</html>

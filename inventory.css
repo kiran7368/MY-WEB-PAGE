@@ -1,0 +1,224 @@
+/* Global styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url('invent.jpeg'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keeps the image fixed during scroll */
+    color: #333;
+    line-height: 1.6;
+    padding-bottom: 50px;
+    transition: background-color 0.5s ease;
+}
+
+/* Adding background overlay */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 98, 204, 0.2); /* Optional dark overlay */
+    z-index: -1;
+}
+
+/* Header styling with fade-in animation */
+header {
+    background-color: rgba(0, 98, 204, 0.8); /* Semi-transparent for blending with background */
+    color: #fff;
+    padding: 30px 0;
+    text-align: center;
+    font-size: 28px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+
+
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Container and table styling */
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: slideIn 1s ease-in-out;
+}
+
+/* Slide in animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover animation on table rows */
+.inventory-list {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    animation: fadeInTable 1.5s ease;
+}
+
+@keyframes fadeInTable {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.inventory-list th, .inventory-list td {
+    border: 1px solid #ddd;
+    padding: 14px;
+    text-align: left;
+    transition: background-color 0.3s ease;
+}
+
+.inventory-list th {
+    background-color: #0062cc;
+    color: #fff;
+    font-weight: bold;
+}
+
+.inventory-list tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.inventory-list td {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Row hover effect with animation */
+.inventory-list tr:hover td {
+    background-color: #e6f7ff;
+    transition: background-color 0.5s ease, transform 0.3s ease;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+/* Animated form elements */
+.add-item-form, .search-form {
+    margin: 30px 0;
+    text-align: center;
+    animation: slideUp 1.2s ease;
+}
+
+/* Slide up form animation */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Input and button animations */
+.add-item-form input, .add-item-form button, .search-form input, .search-form button {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 25px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    outline: none;
+    transition: all 0.3s ease, transform 0.3s ease;
+}
+
+.add-item-form button, .search-form button {
+    background-color: #0062cc;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+/* Button hover animation */
+.add-item-form button:hover, .search-form button:hover {
+    background-color: #0051a8;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Input hover effect */
+.add-item-form input:hover, .search-form input:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth focus transitions */
+.add-item-form input:focus, .search-form input:focus {
+    border-color: #0062cc;
+    box-shadow: 0 4px 8px rgba(0, 98, 204, 0.3);
+    transition: box-shadow 0.3s ease;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #0062cc;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .inventory-list th, .inventory-list td {
+        padding: 10px;
+    }
+
+    .add-item-form input, .add-item-form button, .search-form input, .search-form button {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+}

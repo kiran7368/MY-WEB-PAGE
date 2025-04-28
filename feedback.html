@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback and Rating Section</title>
+    <!-- Link to FontAwesome for star icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #74ebd5 0%, #acb6e5 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .rating {
+            margin-bottom: 15px;
+        }
+        .rating .fa-star {
+            font-size: 40px;
+            color: #ccc;
+            cursor: pointer;
+            transition: transform 0.3s, color 0.3s;
+        }
+        .rating .fa-star.checked {
+            color: gold;
+            transform: scale(1.2);
+        }
+        .emoji-feedback {
+            margin: 20px 0;
+        }
+        .emoji {
+            font-size: 30px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .emoji:hover {
+            transform: scale(1.3);
+        }
+        .rating-label {
+            font-size: 18px;
+            color: #333;
+            margin-top: 10px;
+        }
+        .star-desc {
+            font-size: 16px;
+            color: #666;
+            margin-top: 5px;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: none;
+            background-color: #fff;
+            color: #333;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+        }
+        textarea:focus {
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+            outline: none;
+        }
+        .character-count {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            text-align: right;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .feedback-message {
+            font-size: 18px;
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+            transition: opacity 0.5s;
+        }
+        .feedback-message.error {
+            color: red;
+        }
+        .feedback-message.success {
+            color: green;
+        }
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .preview {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            display: none;
+            text-align: left;
+            transition: opacity 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>We Value Your Feedback</h2>
+
+        <!-- Rating Stars -->
+        <div class="rating">
+            <i class="fa fa-star" data-rating="1"></i>
+            <i class="fa fa-star" data-rating="2"></i>
+            <i class="fa fa-star" data-rating="3"></i>
+            <i class="fa fa-star" data-rating="4"></i>
+            <i class="fa fa-star" data-rating="5"></i>
+        </div>
+        <div class="rating-label">
+            <span id="rating-text">Select a rating</span>
+        </div>
+        <div class="star-desc">
+            <span>1 - Poor</span> | 
+            <span>2 - Fair</span> | 
+            <span>3 - Good</span> | 
+            <span>4 - Very Good</span> | 
+            <span>5 - Excellent</span>
+        </div>
+
+        <!-- Emoji Feedback -->
+        <div class="emoji-feedback">
+            <span class="emoji" data-emoji="😊">😊</span>
+            <span class="emoji" data-emoji="😐">😐</span>
+            <span class="emoji" data-emoji="😢">😢</span>
+        </div>
+
+        <!-- Feedback Textarea -->
+        <textarea id="feedback" placeholder="Share your experience with us..."></textarea>
+        <div class="character-count" id="char-count">0 characters</div>
+
+        <!-- Preview Section -->
+        <div class="preview" id="preview">
+            <strong>Preview:</strong>
+            <p id="preview-text"></p>
+        </div>
+
+        <!-- Submit Button -->
+        <button onclick="submitFeedback()">Submit Feedback</button>
+
+        <!-- Feedback Message -->
+        <div id="feedback-message" class="feedback-message"></div>
+    </div>
+
+    <script>
+        let rating = 0;
+        let emoji = '';
+        const stars = document.querySelectorAll('.fa-star');
+        const emojis = document.querySelectorAll('.emoji');
+        const ratingText = document.getElementById('rating-text');
+        const feedbackMessage = document.getElementById('feedback-message');
+        const feedbackInput = document.getElementById('feedback');
+        const charCountElement = document.getElementById('char-count');
+        const preview = document.getElementById('preview');
+        const previewText = document.getElementById('preview-text');
+
+        // Star hover and click functionality
+        stars.forEach((star, index) => {
+            star.addEventListener('mouseover', () => {
+                highlightStars(index);
+            });
+            star.addEventListener('click', () => {
+                rating = index + 1;
+                highlightStars(index);
+                updateRatingText();
+                showPreview();
+            });
+            star.addEventListener('mouseout', () => {
+                highlightStars(rating - 1); // Reset to selected rating on mouse out
+            });
+        });
+
+        // Emoji click functionality
+        emojis.forEach((emojiElement) => {
+            emojiElement.addEventListener('click', () => {
+                emoji = emojiElement.dataset.emoji;
+                emojis.forEach(e => e.style.transform = 'scale(1)'); // Reset scale
+                emojiElement.style.transform = 'scale(1.3)'; // Scale up selected emoji
+                showPreview();
+            });
+        });
+
+        // Highlight the stars based on hover or click
+        function highlightStars(index) {
+            stars.forEach((star, i) => {
+                star.classList.toggle('checked', i <= index);
+            });
+        }
+
+        // Update rating label based on selection
+        function updateRatingText() {
+            const descriptions = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+            ratingText.textContent = rating ? `You selected: ${descriptions[rating - 1]}` : 'Select a rating';
+        }
+
+        // Character count update
+        feedbackInput.addEventListener('input', () => {
+            const charCount = feedbackInput.value.length;
+            charCountElement.textContent = `${charCount} characters`;
+            showPreview();
+        });
+
+        // Show preview of the feedback
+        function showPreview() {
+            const feedback = feedbackInput.value.trim();
+            if (rating > 0 && emoji) {
+                previewText.innerHTML = `Rating: ${rating} Stars ${emoji} <br> Feedback: ${feedback}`;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        // Submit feedback
+        function submitFeedback() {
+            const feedback = feedbackInput.value.trim();
+            if (rating === 0) {
+                feedbackMessage.textContent = 'Please select a rating.';
+                feedbackMessage.classList.add('error');
+                feedbackMessage.classList.remove('success');
+                feedbackMessage.style.display = 'block';
+                return;
+            }
+            if (feedback === '') {
+                feedbackMessage.textContent = 'Please enter your feedback.';
+                feedbackMessage.classList.add('error');
+                feedbackMessage.classList.remove('success');
+                feedbackMessage.style.display = 'block';
+                return;
+            }
+
+            console.log('Rating:', rating);
+            console.log('Emoji:', emoji);
+            console.log('Feedback:', feedback);
+
+            // Show success message
+            feedbackMessage.textContent = 'Thank you for your feedback!';
+            feedbackMessage.classList.add('success');
+            feedbackMessage.classList.remove('error');
+            feedbackMessage.style.display = 'block';
+
+            // Reset the form after a delay
+            setTimeout(() => {
+                rating = 0;
+                emoji = '';
+                highlightStars(-1);
+                updateRatingText();
+                feedbackInput.value = '';
+                charCountElement.textContent = '0 characters';
+                preview.style.display = 'none';
+                feedbackMessage.style.display = 'none';
+                emojis.forEach(e => e.style.transform = 'scale(1)'); // Reset emoji scale
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>
